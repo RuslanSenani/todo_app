@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/data/local_storage.dart';
+import 'package:todo_app/helper/translation_helper.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/widgets/custom_search_delegate.dart';
@@ -96,11 +97,10 @@ class _HomePageState extends State<HomePage> {
                   _showAddTaskButtonSheet();
                 },
                 child: const Text(
-                  'to_do_title',
+                  'empty_task_list',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
                     decorationStyle: TextDecorationStyle.solid,
                     decorationThickness: 2,
                     decorationColor: Colors.blue,
@@ -122,11 +122,12 @@ class _HomePageState extends State<HomePage> {
             title: TextField(
               autofocus: true,
               style: const TextStyle(fontSize: 20),
-              decoration: InputDecoration(hintText: tr('add_task'), border: InputBorder.none),
+              decoration: InputDecoration(hintText: 'add_task'.tr(), border: InputBorder.none),
               onSubmitted: (value) {
                 Navigator.of(context).pop();
                 if (value.length > 3) {
                   DatePicker.showTimePicker(
+                    locale: TranslationHelper.getDeviceLanguage(context),
                     context,
                     showSecondsColumn: false,
                     onConfirm: (time) async {

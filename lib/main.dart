@@ -27,7 +27,8 @@ Future<void> setUpHive() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await setUpHive();
   setUp();
   runApp(
@@ -50,7 +51,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.deviceLocale,
       debugShowCheckedModeBanner: false,
-      title: tr('app_title'),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(

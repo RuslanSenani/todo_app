@@ -113,7 +113,7 @@ class CustomSearchDelegate extends SearchDelegate {
               );
             },
           )
-        :  Center(
+        : Center(
             child: const Text('search_not_found').tr(),
           );
   }
