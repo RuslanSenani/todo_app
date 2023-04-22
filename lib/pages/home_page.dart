@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/data/local_storage.dart';
@@ -35,9 +36,9 @@ class _HomePageState extends State<HomePage> {
             _showAddTaskButtonSheet();
           },
           child: Text(
-            'Bu Gün Nə Edəcəksən ?',
+            'to_do_title',
             style: TextStyle(color: Colors.black),
-          ),
+          ).tr(),
         ),
         centerTitle: false,
         actions: [
@@ -68,9 +69,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Bu Vəzifəni Silirsiz',
+                          'remove_task',
                           style: TextStyle(color: Colors.white),
-                        ),
+                        ).tr(),
                         Icon(
                           Icons.delete,
                           color: Colors.white,
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   _showAddTaskButtonSheet();
                 },
                 child: Text(
-                  'Bu Gün Nə Edəcəksən ?',
+                  'to_do_title',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                     decorationThickness: 2,
                     decorationColor: Colors.blue,
                   ),
-                ),
+                ).tr(),
               ),
             ),
     );
@@ -121,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             title: TextField(
               autofocus: true,
               style: TextStyle(fontSize: 20),
-              decoration: InputDecoration(hintText: 'Vəzifə Nədir', border: InputBorder.none),
+              decoration: InputDecoration(hintText: tr('add_task'), border: InputBorder.none),
               onSubmitted: (value) {
                 Navigator.of(context).pop();
                 if (value.length > 3) {
@@ -150,7 +151,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  void _showSearchPage() {
-    showSearch(context: context, delegate: CustomSearchDelegate());
+  void _showSearchPage() async {
+    await showSearch(context: context, delegate: CustomSearchDelegate(allTask: _allTask));
+    _getAllTaskFromDb();
   }
 }

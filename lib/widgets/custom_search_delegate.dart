@@ -1,27 +1,120 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/local_storage.dart';
+import 'package:todo_app/main.dart';
+import 'package:todo_app/models/task_model.dart';
+import 'task_list_items.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+  final List<Task> allTask;
+  CustomSearchDelegate({required this.allTask});
+
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
-    throw UnimplementedError();
+    return [
+      IconButton(
+          onPressed: () {
+            query.isEmpty ? null : query = '';
+          },
+          icon: const Icon(Icons.clear)),
+    ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-    throw UnimplementedError();
+    return GestureDetector(
+      onTap: () {
+        close(context, null);
+      },
+      child: const Icon(
+        Icons.arrow_back_ios,
+        color: Colors.black,
+        size: 24,
+      ),
+    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
+    List<Task> filteredList =
+        allTask.where((task) => task.name.toLowerCase().contains(query.toLowerCase())).toList();
+    return filteredList.isNotEmpty
+        ? ListView.builder(
+            itemCount: filteredList.length,
+            itemBuilder: (context, index) {
+              var _oankiTask = filteredList[index];
+              return Dismissible(
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Bu Vəzifəni Silirsiz',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+                key: Key(_oankiTask.id),
+                onDismissed: (direction) async {
+                  filteredList.removeAt(index);
+                  await locator<LocalStorage>().deleteTask(task: _oankiTask);
+                },
+                child: TaskListItem(task: _oankiTask),
+              );
+            },
+          )
+        : Center(
+            child: const Text('search_not_found').tr(),
+          );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    throw UnimplementedError();
+    List<Task> filteredList =
+        allTask.where((task) => task.name.toLowerCase().contains(query.toLowerCase())).toList();
+    return filteredList.length > 0
+        ? ListView.builder(
+            itemCount: filteredList.length,
+            itemBuilder: (context, index) {
+              var _oankiTask = filteredList[index];
+              return Dismissible(
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'remove_task',
+                        style: TextStyle(color: Colors.white),
+                      ).tr(),
+                      Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+                key: Key(_oankiTask.id),
+                onDismissed: (direction) async {
+                  filteredList.removeAt(index);
+                  await locator<LocalStorage>().deleteTask(task: _oankiTask);
+                },
+                child: TaskListItem(task: _oankiTask),
+              );
+            },
+          )
+        :  Center(
+            child: Text('search_not_found').tr(),
+          );
   }
 }

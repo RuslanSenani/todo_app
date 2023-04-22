@@ -20,11 +20,11 @@ class _TaskListItemState extends State<TaskListItem> {
     // TODO: implement initState
     super.initState();
     _localStorage = locator<LocalStorage>();
-    _taskNameController.text = widget.task.name;
   }
 
   @override
   Widget build(BuildContext context) {
+    _taskNameController.text = widget.task.name;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
