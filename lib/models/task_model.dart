@@ -2,9 +2,9 @@ import 'package:uuid/uuid.dart';
 
 class Task {
   final String id;
-  final String name;
+  String name;
   final DateTime created;
-  final bool isComplated;
+  bool isComplated;
   Task({
     required this.id,
     required this.name,

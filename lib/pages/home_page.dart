@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/widgets/task_list_items.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,10 +76,7 @@ class _HomePageState extends State<HomePage> {
                     _allTask.removeAt(index);
                     setState(() {});
                   },
-                  child: ListTile(
-                    title: Text(_oankiTask.name + " " + _oankiTask.id),
-                    subtitle: Text(_oankiTask.created.toString()),
-                  ),
+                  child: TaskListItem(task: _oankiTask),
                 );
               },
             )
@@ -112,6 +110,7 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width,
           child: ListTile(
             title: TextField(
+              autofocus: true,
               style: TextStyle(fontSize: 20),
               decoration: InputDecoration(hintText: 'Vəzifə Nədir', border: InputBorder.none),
               onSubmitted: (value) {
