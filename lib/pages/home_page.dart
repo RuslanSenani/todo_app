@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:todo_app/data/local_storage.dart';
+import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/widgets/task_list_items.dart';
 
@@ -12,9 +14,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Task> _allTask;
+  late LocalStorage _localStorage;
   @override
   void initState() {
+    _localStorage = locator<LocalStorage>();
     _allTask = <Task>[];
+    _getAllTaskFromDb();
     _allTask.add(Task.create(name: "TEST", created: DateTime.now()));
     super.initState();
   }
@@ -74,6 +79,7 @@ class _HomePageState extends State<HomePage> {
                   key: Key(_oankiTask.id),
                   onDismissed: (direction) {
                     _allTask.removeAt(index);
+                    _localStorage.deleteTask(task: _oankiTask);
                     setState(() {});
                   },
                   child: TaskListItem(task: _oankiTask),
@@ -119,9 +125,10 @@ class _HomePageState extends State<HomePage> {
                   DatePicker.showTimePicker(
                     context,
                     showSecondsColumn: false,
-                    onConfirm: (time) {
+                    onConfirm: (time) async {
                       var yeniElaveEdilecekVezife = Task.create(name: value, created: time);
                       _allTask.add(yeniElaveEdilecekVezife);
+                      await _localStorage.addTask(task: yeniElaveEdilecekVezife);
                       setState(() {});
                     },
                   );
@@ -132,5 +139,10 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  Future<void> _getAllTaskFromDb() async {
+    _allTask = await _localStorage.getAllTask();
+    setState(() {});
   }
 }

@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_app/data/local_storage.dart';
+import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/pages/home_page.dart';
 
-void main() {
+final locator = GetIt.instance;
+
+void setUp() {
+  locator.registerSingleton<LocalStorage>(HiveLocalStorage());
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+  setUp();
   runApp(const MyApp());
 }
 
