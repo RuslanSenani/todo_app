@@ -3,6 +3,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/data/local_storage.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/widgets/custom_search_delegate.dart';
 import 'package:todo_app/widgets/task_list_items.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     _localStorage = locator<LocalStorage>();
     _allTask = <Task>[];
     _getAllTaskFromDb();
-    _allTask.add(Task.create(name: "TEST", created: DateTime.now()));
+    //_allTask.add(Task.create(name: "TEST", created: DateTime.now()));
     super.initState();
   }
 
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: GestureDetector(
           onTap: () {
-            _showAddTaskButtonSheet(context);
+            _showAddTaskButtonSheet();
           },
           child: Text(
             'Bu Gün Nə Edəcəksən ?',
@@ -41,12 +42,14 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _showSearchPage();
+            },
             icon: Icon(Icons.search),
           ),
           IconButton(
             onPressed: () {
-              _showAddTaskButtonSheet(context);
+              _showAddTaskButtonSheet();
             },
             icon: Icon(Icons.add),
           )
@@ -89,10 +92,10 @@ class _HomePageState extends State<HomePage> {
           : Center(
               child: GestureDetector(
                 onTap: () {
-                  _showAddTaskButtonSheet(context);
+                  _showAddTaskButtonSheet();
                 },
                 child: Text(
-                  'Vəzifə Əlavə Et',
+                  'Bu Gün Nə Edəcəksən ?',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -107,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _showAddTaskButtonSheet(BuildContext context) {
+  void _showAddTaskButtonSheet() {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -127,7 +130,8 @@ class _HomePageState extends State<HomePage> {
                     showSecondsColumn: false,
                     onConfirm: (time) async {
                       var yeniElaveEdilecekVezife = Task.create(name: value, created: time);
-                      _allTask.add(yeniElaveEdilecekVezife);
+
+                      _allTask.insert(0, yeniElaveEdilecekVezife);
                       await _localStorage.addTask(task: yeniElaveEdilecekVezife);
                       setState(() {});
                     },
@@ -144,5 +148,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _getAllTaskFromDb() async {
     _allTask = await _localStorage.getAllTask();
     setState(() {});
+  }
+
+  void _showSearchPage() {
+    showSearch(context: context, delegate: CustomSearchDelegate());
   }
 }
