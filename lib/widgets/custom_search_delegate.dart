@@ -42,14 +42,14 @@ class CustomSearchDelegate extends SearchDelegate {
         ? ListView.builder(
             itemCount: filteredList.length,
             itemBuilder: (context, index) {
-              var _oankiTask = filteredList[index];
+              var oankiTask = filteredList[index];
               return Dismissible(
                 direction: DismissDirection.endToStart,
                 background: Container(
                   color: Colors.red,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
+                    children: const [
                       Text(
                         'Bu Vəzifəni Silirsiz',
                         style: TextStyle(color: Colors.white),
@@ -62,12 +62,12 @@ class CustomSearchDelegate extends SearchDelegate {
                     ],
                   ),
                 ),
-                key: Key(_oankiTask.id),
+                key: Key(oankiTask.id),
                 onDismissed: (direction) async {
                   filteredList.removeAt(index);
-                  await locator<LocalStorage>().deleteTask(task: _oankiTask);
+                  await locator<LocalStorage>().deleteTask(task: oankiTask);
                 },
-                child: TaskListItem(task: _oankiTask),
+                child: TaskListItem(task: oankiTask),
               );
             },
           )
@@ -80,11 +80,11 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     List<Task> filteredList =
         allTask.where((task) => task.name.toLowerCase().contains(query.toLowerCase())).toList();
-    return filteredList.length > 0
+    return filteredList.isNotEmpty
         ? ListView.builder(
             itemCount: filteredList.length,
             itemBuilder: (context, index) {
-              var _oankiTask = filteredList[index];
+              var oankiTask = filteredList[index];
               return Dismissible(
                 direction: DismissDirection.endToStart,
                 background: Container(
@@ -92,29 +92,29 @@ class CustomSearchDelegate extends SearchDelegate {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
+                      const Text(
                         'remove_task',
                         style: TextStyle(color: Colors.white),
                       ).tr(),
-                      Icon(
+                      const Icon(
                         Icons.delete,
                         color: Colors.white,
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                     ],
                   ),
                 ),
-                key: Key(_oankiTask.id),
+                key: Key(oankiTask.id),
                 onDismissed: (direction) async {
                   filteredList.removeAt(index);
-                  await locator<LocalStorage>().deleteTask(task: _oankiTask);
+                  await locator<LocalStorage>().deleteTask(task: oankiTask);
                 },
-                child: TaskListItem(task: _oankiTask),
+                child: TaskListItem(task: oankiTask),
               );
             },
           )
         :  Center(
-            child: Text('search_not_found').tr(),
+            child: const Text('search_not_found').tr(),
           );
   }
 }

@@ -1,7 +1,7 @@
 {
     "search_not_found": "We Couldn't Find What You Are Looking For",
     "app_title": "Task Table",
-    "to_dotitle": "What are you doing today ?",
+    "to_do_title": "What are you doing today ?",
     "empty_task_list": "Let 's do it",
     "add_task": "What is the task ?",
     "remove_task": "This Task Has Been Removed"

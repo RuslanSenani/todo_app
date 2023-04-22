@@ -13,11 +13,11 @@ class TaskListItem extends StatefulWidget {
 }
 
 class _TaskListItemState extends State<TaskListItem> {
-  TextEditingController _taskNameController = TextEditingController();
+  final TextEditingController _taskNameController = TextEditingController();
   late LocalStorage _localStorage;
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     _localStorage = locator<LocalStorage>();
   }
@@ -26,7 +26,7 @@ class _TaskListItemState extends State<TaskListItem> {
   Widget build(BuildContext context) {
     _taskNameController.text = widget.task.name;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -40,21 +40,21 @@ class _TaskListItemState extends State<TaskListItem> {
             });
           },
           child: Container(
-            child: Icon(
-              Icons.check,
-              color: Colors.white,
-            ),
             decoration: BoxDecoration(
               color: widget.task.isComplated ? Colors.green : Colors.white,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey, width: 0.8),
+            ),
+            child: const Icon(
+              Icons.check,
+              color: Colors.white,
             ),
           ),
         ),
         title: widget.task.isComplated
             ? Text(
                 widget.task.name,
-                style: TextStyle(
+                style: const TextStyle(
                   decoration: TextDecoration.lineThrough,
                   color: Colors.grey,
                 ),
@@ -64,7 +64,7 @@ class _TaskListItemState extends State<TaskListItem> {
                 minLines: 1,
                 maxLines: null,
                 textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
                 onSubmitted: (value) {
@@ -78,7 +78,7 @@ class _TaskListItemState extends State<TaskListItem> {
           DateFormat.Hm().format(
             widget.task.created,
           ),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.grey,
           ),

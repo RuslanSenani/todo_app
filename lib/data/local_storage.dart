@@ -30,13 +30,13 @@ class HiveLocalStorage extends LocalStorage {
 
   @override
   Future<List<Task>> getAllTask() async {
-    List<Task> _allTask = <Task>[];
-    _allTask = _taskBox.values.toList();
+    List<Task> allTask = <Task>[];
+    allTask = _taskBox.values.toList();
 
-    if (_allTask.isNotEmpty) {
-      _allTask.sort((Task a, Task b) => b.created.compareTo(a.created));
+    if (allTask.isNotEmpty) {
+      allTask.sort((Task a, Task b) => b.created.compareTo(a.created));
     }
-    return _allTask;
+    return allTask;
   }
 
   @override

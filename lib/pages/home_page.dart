@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             _showAddTaskButtonSheet();
           },
-          child: Text(
+          child: const Text(
             'to_do_title',
             style: TextStyle(color: Colors.black),
           ).tr(),
@@ -46,13 +46,13 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               _showSearchPage();
             },
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           ),
           IconButton(
             onPressed: () {
               _showAddTaskButtonSheet();
             },
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           )
         ],
       ),
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           ? ListView.builder(
               itemCount: _allTask.length,
               itemBuilder: (context, index) {
-                var _oankiTask = _allTask[index];
+                var oankiTask = _allTask[index];
                 return Dismissible(
                   direction: DismissDirection.endToStart,
                   background: Container(
@@ -68,25 +68,25 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
+                        const Text(
                           'remove_task',
                           style: TextStyle(color: Colors.white),
                         ).tr(),
-                        Icon(
+                        const Icon(
                           Icons.delete,
                           color: Colors.white,
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                       ],
                     ),
                   ),
-                  key: Key(_oankiTask.id),
+                  key: Key(oankiTask.id),
                   onDismissed: (direction) {
                     _allTask.removeAt(index);
-                    _localStorage.deleteTask(task: _oankiTask);
+                    _localStorage.deleteTask(task: oankiTask);
                     setState(() {});
                   },
-                  child: TaskListItem(task: _oankiTask),
+                  child: TaskListItem(task: oankiTask),
                 );
               },
             )
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   _showAddTaskButtonSheet();
                 },
-                child: Text(
+                child: const Text(
                   'to_do_title',
                   style: TextStyle(
                     fontSize: 20,
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             title: TextField(
               autofocus: true,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
               decoration: InputDecoration(hintText: tr('add_task'), border: InputBorder.none),
               onSubmitted: (value) {
                 Navigator.of(context).pop();
